@@ -42,7 +42,11 @@ public partial class App : Application
     public App()
     {
         this.InitializeComponent();
+#if GIO
+        var settingsFile = "appsettings.GIO.json";
+#else
         var settingsFile = "appsettings.json";
+#endif
         // .SetBasePath(AppContext.BaseDirectory) as it's not available in .NET 9 for WinUI.
         _configuration = new ConfigurationBuilder()
             .AddJsonFile(settingsFile, optional: true, reloadOnChange: true)
