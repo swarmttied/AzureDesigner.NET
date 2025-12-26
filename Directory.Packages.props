@@ -4,7 +4,7 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Azure.Identity" Version="1.16.0" />
+    <PackageVersion Include="Azure.Identity" Version="1.18.0-beta.2" />
     <PackageVersion Include="Azure.ResourceManager.ApplicationInsights" Version="1.0.1" />
     <PackageVersion Include="Azure.ResourceManager.AppService" Version="1.4.1" />
     <PackageVersion Include="Azure.ResourceManager.Authorization" Version="1.1.5" />
@@ -13,11 +13,14 @@
     <PackageVersion Include="Azure.ResourceManager.ManagedServiceIdentities" Version="1.4.0" />
     <PackageVersion Include="Azure.ResourceManager.Storage" Version="1.4.4" />
     <PackageVersion Include="CommunityToolkit.WinUI.Converters" Version="8.2.250402" />
-    <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.1" />
-    <PackageVersion Include="Microsoft.Data.Sqlite" Version="9.0.8" />
+    <PackageVersion Include="Microsoft.Agents.AI" Version="1.0.0-preview.251219.1" />
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.0.0-preview3.25342.7" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.AI" Version="10.1.1" />
+    <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.1.1-preview.1.25612.2" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.9" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="9.0.9" />
-    <PackageVersion Include="Microsoft.SemanticKernel" Version="1.62.0" />
+    <PackageVersion Include="Microsoft.SemanticKernel" Version="1.68.0" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.250907003" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />

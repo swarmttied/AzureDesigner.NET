@@ -1,8 +1,15 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Net;
+using System.Text.RegularExpressions;
+using Azure.AI.OpenAI;
 using Azure.Core;
+using Azure.Identity;
+using Microsoft.Agents.AI;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+
+
 
 namespace SKLIb
 {
@@ -55,6 +62,7 @@ namespace SKLIb
         readonly IAIResponseExtractor aIResponseExtractor;
         readonly Kernel _kernel;
         readonly bool _saveChatHistory;  // Still contemplating whether to use chat history or NOT 
+        readonly AIAgent _agent;
 
         // Synchronization root to guard ChatHistory access (multi-thread safety)
         private readonly object _chatHistorySync = new();
@@ -90,6 +98,17 @@ namespace SKLIb
                 }
             }
             _chatService = _kernel.GetRequiredService<IChatCompletionService>();
+
+
+
+            var client = new AzureOpenAIClient(new Uri(settings.Endpoint), credential);
+            var chatClient = client.GetChatClient(settings.Deployment).AsIChatClient();
+            //var aiTools = services.Select(o=>o).OfType<AITool>();
+            var functionSources = services.Select(o => o)
+                                             .OfType<IAIFunctionsSource>();
+            IList<AITool> toolList = functionSources.SelectMany(o => o.GetAIFunctions()).ToList();
+            _agent = chatClient.CreateAIAgent(tools: toolList);
+
         }
 
         public async Task RunAsync(string prompt)
@@ -106,6 +125,7 @@ namespace SKLIb
 
             bool success = false;
             IReadOnlyList<ChatMessageContent>? messageContents = null;
+            AgentRunResponse agentRunResponse = null;
             int waitTimeInSeconds = 0;
             do
             {
@@ -125,16 +145,29 @@ namespace SKLIb
                             // ChatHistory does not implement deep clone, but passing reference is fine if no mutation until response.
                             localHistory = _chatHistory;
                         }
-                        messageContents = await _chatService.GetChatMessageContentsAsync(
-                                              _chatHistory,
-                                              _openAIPromptExecutionSettings,
-                                              kernel: _kernel);
+                        //messageContents = await _chatService.GetChatMessageContentsAsync(
+                        //                      _chatHistory,
+                        //                      _openAIPromptExecutionSettings,
+                        //                      kernel: _kernel);
+
+
                     }
                     else
-                        messageContents = await _chatService.GetChatMessageContentsAsync(
-                                               prompt,
-                                               _openAIPromptExecutionSettings,
-                                               kernel: _kernel);
+                    {
+                        //messageContents = await _chatService.GetChatMessageContentsAsync(
+                        //                       prompt,
+                        //                       _openAIPromptExecutionSettings,
+                        //                       kernel: _kernel);
+
+                        agentRunResponse = await _agent.RunAsync(new ChatMessage(ChatRole.User, prompt));
+                        //await foreach (var chunk in agentResult)
+                        //{
+                        //    if (chunk is not null)
+                        //    {
+                        //        FunctionCalled?.Invoke(this, new FunctionCallEventArgs(chunk.Text));
+                        //    }
+                        //}
+                    }
                     success = true;
                 }
                 catch (Exception ex)
@@ -166,11 +199,19 @@ namespace SKLIb
             while (!success);
 
             string fullMessage = "";
-            if (messageContents != null)
+            //if (messageContents != null)
+            //{
+            //    foreach (var msg in messageContents)
+            //    {
+            //        fullMessage += msg.Content;
+            //    }
+            //}
+
+            if (agentRunResponse != null)
             {
-                foreach (var msg in messageContents)
+                foreach (ChatMessage chatMsg in agentRunResponse.Messages)
                 {
-                    fullMessage += msg.Content;
+                    fullMessage += chatMsg.Text;
                 }
             }
 
@@ -180,7 +221,7 @@ namespace SKLIb
                 {
                     _chatHistory.AddAssistantMessage(fullMessage);
                 }
-            }           
+            }
 
             ResponseReceived?.Invoke(this, new ResponseEventArgs
             {

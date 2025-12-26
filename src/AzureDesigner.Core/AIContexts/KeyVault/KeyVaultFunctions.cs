@@ -4,12 +4,13 @@ using Azure.ResourceManager.KeyVault;
 using Azure.ResourceManager.KeyVault.Models;
 using AzureDesigner.Models;
 using AzureDesigner.Services;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using SKLIb;
 
 namespace AzureDesigner.AIContexts.KeyVault;
 
-public class KeyVaultFunctions : IFunctionCalled, INameToIdResolver
+public class KeyVaultFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
 {
 
 
@@ -33,7 +34,7 @@ public class KeyVaultFunctions : IFunctionCalled, INameToIdResolver
     [KernelFunction]
     public async Task<KeyVaultData> GetVaultInfo(int id)
     {
-        string fullId  = _idMapping.GetFullId(id);
+        string fullId = _idMapping.GetFullId(id);
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(GetVaultInfo)}("{id}")"""));
 
         var data = await GetInfoAsync(fullId);
@@ -196,5 +197,17 @@ public class KeyVaultFunctions : IFunctionCalled, INameToIdResolver
         }
 
         return id;
+    }
+
+    public IEnumerable<AITool> GetAIFunctions()
+    {
+        return [AIFunctionFactory.Create(GetVaultInfo),
+                AIFunctionFactory.Create(GetVaultManagedIdentityIdsWithRbacAccess),
+                AIFunctionFactory.Create(AddManagedIdentityWithRbacRoleToKeyVault),
+                AIFunctionFactory.Create(UpdatePublicNetworkAccess),
+                AIFunctionFactory.Create(GetIpAddress),
+                AIFunctionFactory.Create(UpdateKeyVaultPublicNetworkAccessIpAddress),
+                AIFunctionFactory.Create(ResolveKeyVaultNameToID)
+        ];
     }
 }

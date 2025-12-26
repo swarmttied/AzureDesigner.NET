@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AzureDesigner.Models;
 using AzureDesigner.Services;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using SKLIb;
 
 namespace AzureDesigner.AIContexts.OpenAI
 {
-    public class OpenAIFunctions : IFunctionCalled, INameToIdResolver
+    public class OpenAIFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
     {
         readonly ICredentialFactory _credentialFactory;
         readonly IRbacService _rbacService;
@@ -62,6 +63,13 @@ namespace AzureDesigner.AIContexts.OpenAI
                 return -1;
             }
             return id;
+        }
+
+        public IEnumerable<AITool> GetAIFunctions()
+        {
+            return [AIFunctionFactory.Create(ResolveOpenAINameToID),
+                    AIFunctionFactory.Create(GetOpenAIManagedIdentityIdsWithRbacAccess),
+                    AIFunctionFactory.Create(AddManagedIdentityWithRbacRoleToOpenAI)];
         }
     }
 }

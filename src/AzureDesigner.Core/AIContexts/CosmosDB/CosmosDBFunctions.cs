@@ -5,12 +5,13 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.CosmosDB;
 using Azure.ResourceManager.Storage;
 using AzureDesigner.Models;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using SKLIb;
 
 namespace AzureDesigner.AIContexts.CosmosDB
 {
-    public class CosmosDBFunctions : IFunctionCalled, INameToIdResolver
+    public class CosmosDBFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
     {
         readonly ICredentialFactory _credentialFactory;
         readonly IIdMapping _idMapping;
@@ -48,7 +49,7 @@ namespace AzureDesigner.AIContexts.CosmosDB
             {
                 return null;
             }
-         }
+        }
 
         [KernelFunction]
         [Description("Updates the local authentication settings of resource types 'microsoft.documentdb/databaseaccounts', 'microsoft.documentdb/databaseaccounts/globaldocumentdb'")]
@@ -130,5 +131,11 @@ namespace AzureDesigner.AIContexts.CosmosDB
 
             return id;
         }
+
+        public IEnumerable<AITool> GetAIFunctions()
+            => [AIFunctionFactory.Create(GetCosmosDBInfo),
+                AIFunctionFactory.Create(UpdateCosmosDBLocalAuth),
+                AIFunctionFactory.Create(UpdateCosmosDBPublicNetworkAccess)
+            ];
     }
 }

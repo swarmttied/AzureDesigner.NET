@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AzureDesigner.Models;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using SKLIb;
 
 namespace AzureDesigner.AIContexts.SqlServer
 {
-    public class SqlServerFunctions : IFunctionCalled, INameToIdResolver
+    public class SqlServerFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
     {
         IDictionary<string, int> _nodeDict;
         readonly IIdMapping _idMapping;
@@ -38,6 +39,11 @@ namespace AzureDesigner.AIContexts.SqlServer
             }
 
             return id;
+        }
+
+        public IEnumerable<AITool> GetAIFunctions()
+        {
+            return [AIFunctionFactory.Create(ResolveSqlServerNameToID)];
         }
     }
 }

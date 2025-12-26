@@ -5,18 +5,19 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.AppService;
 using Azure.ResourceManager.AppService.Models;
 using AzureDesigner.Models;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using OpenAI.Assistants;
 using SKLIb;
 
 namespace AzureDesigner.AIContexts.Sites;
 
-public class SitesFunctions : IFunctionCalled, INameToIdResolver
+public class SitesFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
 {
     readonly ICredentialFactory _credentialFactory;
     readonly IIdMapping _idMapping;
 
-    
+
 
     public event EventHandler<FunctionCallEventArgs> FunctionCalled;
 
@@ -27,7 +28,7 @@ public class SitesFunctions : IFunctionCalled, INameToIdResolver
     }
 
 
-     [KernelFunction]
+    [KernelFunction]
     //[Description("The function to call for get info of resource type '*/sites/*', '*/sites/*'")]
     public async Task<WebSiteDataLite> GetSitesInfo([Description("The unique identifier in the form /subscriptions/<subscrptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.Web/sites/<siteName>")] int id)
     {
@@ -48,7 +49,7 @@ public class SitesFunctions : IFunctionCalled, INameToIdResolver
         // Offload to a lighter object which is serializable with selected properties
         var liteData = new WebSiteDataLite
         {
-            Id= _idMapping.GetCompactId(data.Id),
+            Id = _idMapping.GetCompactId(data.Id),
             State = data.State,
             ManagedIdentityClientIds = await GetSiteUserAssignedManagedIdentityIds(data),
             OutboundIPAddresses = await GetSiteOutboundIpAddresses(data)
@@ -62,7 +63,7 @@ public class SitesFunctions : IFunctionCalled, INameToIdResolver
     {
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(SetSiteState)}("{id}", "{runState}")"""));
         string fullId = _idMapping.GetFullId(id);
-       
+
 
         if (string.IsNullOrWhiteSpace(fullId))
             throw new ArgumentNullException(nameof(fullId));
@@ -95,7 +96,7 @@ public class SitesFunctions : IFunctionCalled, INameToIdResolver
     public async Task DeleteSiteSettings(int id, string[] settingNames)
     {
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(DeleteSiteSettings)}("{id}", "{string.Join(",", settingNames)}")"""));
-       
+
         string fullId = _idMapping.GetFullId(id);
 
         var credential = _credentialFactory.CreateCredential();
@@ -117,11 +118,11 @@ public class SitesFunctions : IFunctionCalled, INameToIdResolver
     }
 
     [KernelFunction]
-    public async Task AddSiteSettings([Description("The service id of the web site or function site to which the new settings will be added")] int id, 
+    public async Task AddSiteSettings([Description("The service id of the web site or function site to which the new settings will be added")] int id,
                 IDictionary<string, string> newSettings)
     {
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(AddSiteSettings)}("{id}", "{string.Join(",", newSettings.Select(kv => kv.Key + "=" + kv.Value))}")"""));
-       
+
         string fullId = _idMapping.GetFullId(id);
         var credential = _credentialFactory.CreateCredential();
         var armClient = new ArmClient(credential);
@@ -139,7 +140,7 @@ public class SitesFunctions : IFunctionCalled, INameToIdResolver
     public async Task UpdateSiteSettings(int id, IDictionary<string, string> settings)
     {
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(UpdateSiteSettings)}("{id}", "{string.Join(",", settings.Select(kv => kv.Key + "=" + kv.Value))}")"""));
-       
+
         string fullId = _idMapping.GetFullId(id);
         var credential = _credentialFactory.CreateCredential();
         var armClient = new ArmClient(credential);
@@ -151,7 +152,7 @@ public class SitesFunctions : IFunctionCalled, INameToIdResolver
             if (config.Value.Properties.ContainsKey(setting.Key))
             {
                 config.Value.Properties[setting.Key] = setting.Value;
-            }           
+            }
         }
         await websiteResource.UpdateApplicationSettingsAsync(config.Value);
     }
@@ -195,5 +196,14 @@ public class SitesFunctions : IFunctionCalled, INameToIdResolver
         }
 
         return id;
+    }
+
+    public IEnumerable<AITool> GetAIFunctions()
+    {
+        return [AIFunctionFactory.Create(GetSitesInfo),
+               AIFunctionFactory.Create(SetSiteState),
+               AIFunctionFactory.Create(ResolveSiteNameToID),
+               AIFunctionFactory.Create(AddSiteSettings),
+               AIFunctionFactory.Create(DeleteSiteSettings)];
     }
 }

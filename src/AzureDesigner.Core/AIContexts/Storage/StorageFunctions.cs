@@ -5,12 +5,13 @@ using Azure.ResourceManager.Storage;
 using Azure.ResourceManager.Storage.Models;
 using AzureDesigner.Models;
 using AzureDesigner.Services;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using SKLIb;
 
 namespace AzureDesigner.AIContexts.Storage;
 
-public class StorageFunctions : IFunctionCalled, INameToIdResolver
+public class StorageFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
 {
     readonly ICredentialFactory _credentialFactory;
     readonly IRbacService _rbacService;
@@ -248,6 +249,21 @@ public class StorageFunctions : IFunctionCalled, INameToIdResolver
         }
 
         return id;
+    }
+
+    public IEnumerable<AITool> GetAIFunctions()
+    {
+        return [AIFunctionFactory.Create(ResolveStorageAccountNameToID),
+                AIFunctionFactory.Create(GetStorageAccountInfo),
+                AIFunctionFactory.Create(GetIpAddress),
+                AIFunctionFactory.Create(GetStorageManagedIdentityIdsWithRbacAccess),
+                AIFunctionFactory.Create(AddManagedIdentityWithRbacRoleToStorage),
+                AIFunctionFactory.Create(UpdateStorageAccountPublicNetworkAccess),
+                AIFunctionFactory.Create(IsStorageLocalUserEnabled),
+                AIFunctionFactory.Create(UpdateStorageBlobPublicAccess),
+                AIFunctionFactory.Create(UpdateStorageIsLocalUserEnabled),
+                AIFunctionFactory.Create(UpdateStorageAllowedSharedKeyAccess)
+        ];
     }
 }
 
