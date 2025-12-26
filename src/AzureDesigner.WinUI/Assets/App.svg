@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048">
+  <g transform="rotate(90 1024 1024)">
+    <path fill="#0078D4" d="M2048 640h-640V482L691 960l717 478v-158h640v640h-640v-328l-768-512v200H0V640h640v200l768-512V0h640v640zm-512 768v384h384v-384h-384zM512 1152V768H128v384h384zM1536 128v384h384V128h-384z" />
+  </g>
+  <!-- Larger white checkmark in green round background, moved to the left -->
+  <circle cx="250" cy="500" r="200" fill="#43B581"/>
+  <path fill="#FFFFFF" d="M150 450l100 100 180-180 60 60-240 240-140-140z"/>
+</svg>

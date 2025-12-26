@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AzureDesigner.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "AzureDesigner.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

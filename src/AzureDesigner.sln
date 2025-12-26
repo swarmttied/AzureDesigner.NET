@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureDesigner.WinUI", "AzureDesigner.WinUI\AzureDesigner.WinUI.csproj", "{85C9B21F-C5DB-4D26-8E6F-8B9FBC6CEA4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureDesigner.Core", "AzureDesigner.Core\AzureDesigner.Core.csproj", "{B586796A-1D72-4859-AE0E-A62C9C3A60D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLIb", "SKLIb\SKLIb.csproj", "{809F1433-6AEE-8768-19FB-4793AB1F239D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIDriver", "AIDriver\AIDriver.csproj", "{A728FADB-6E55-425D-AC8D-0618E633528D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\Readme.md = Documentation\Readme.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZDocs", "Docs\ZDocs.csproj", "{2D5DCBE6-B1E8-45DF-99F2-5A662E7464BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		GIO|Any CPU = GIO|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{85C9B21F-C5DB-4D26-8E6F-8B9FBC6CEA4A}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{85C9B21F-C5DB-4D26-8E6F-8B9FBC6CEA4A}.Debug|Any CPU.Build.0 = Debug|x64
+		{85C9B21F-C5DB-4D26-8E6F-8B9FBC6CEA4A}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{85C9B21F-C5DB-4D26-8E6F-8B9FBC6CEA4A}.GIO|Any CPU.ActiveCfg = GIO|ARM64
+		{85C9B21F-C5DB-4D26-8E6F-8B9FBC6CEA4A}.GIO|Any CPU.Build.0 = GIO|ARM64
+		{85C9B21F-C5DB-4D26-8E6F-8B9FBC6CEA4A}.GIO|Any CPU.Deploy.0 = GIO|ARM64
+		{85C9B21F-C5DB-4D26-8E6F-8B9FBC6CEA4A}.Release|Any CPU.ActiveCfg = Release|x64
+		{85C9B21F-C5DB-4D26-8E6F-8B9FBC6CEA4A}.Release|Any CPU.Build.0 = Release|x64
+		{85C9B21F-C5DB-4D26-8E6F-8B9FBC6CEA4A}.Release|Any CPU.Deploy.0 = Release|x64
+		{B586796A-1D72-4859-AE0E-A62C9C3A60D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B586796A-1D72-4859-AE0E-A62C9C3A60D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B586796A-1D72-4859-AE0E-A62C9C3A60D7}.GIO|Any CPU.ActiveCfg = GIO|Any CPU
+		{B586796A-1D72-4859-AE0E-A62C9C3A60D7}.GIO|Any CPU.Build.0 = GIO|Any CPU
+		{B586796A-1D72-4859-AE0E-A62C9C3A60D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B586796A-1D72-4859-AE0E-A62C9C3A60D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{809F1433-6AEE-8768-19FB-4793AB1F239D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{809F1433-6AEE-8768-19FB-4793AB1F239D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{809F1433-6AEE-8768-19FB-4793AB1F239D}.GIO|Any CPU.ActiveCfg = GIO|Any CPU
+		{809F1433-6AEE-8768-19FB-4793AB1F239D}.GIO|Any CPU.Build.0 = GIO|Any CPU
+		{809F1433-6AEE-8768-19FB-4793AB1F239D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{809F1433-6AEE-8768-19FB-4793AB1F239D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A728FADB-6E55-425D-AC8D-0618E633528D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A728FADB-6E55-425D-AC8D-0618E633528D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A728FADB-6E55-425D-AC8D-0618E633528D}.GIO|Any CPU.ActiveCfg = GIO|Any CPU
+		{A728FADB-6E55-425D-AC8D-0618E633528D}.GIO|Any CPU.Build.0 = GIO|Any CPU
+		{A728FADB-6E55-425D-AC8D-0618E633528D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A728FADB-6E55-425D-AC8D-0618E633528D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D5DCBE6-B1E8-45DF-99F2-5A662E7464BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D5DCBE6-B1E8-45DF-99F2-5A662E7464BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D5DCBE6-B1E8-45DF-99F2-5A662E7464BF}.GIO|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D5DCBE6-B1E8-45DF-99F2-5A662E7464BF}.GIO|Any CPU.Build.0 = Debug|Any CPU
+		{2D5DCBE6-B1E8-45DF-99F2-5A662E7464BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D5DCBE6-B1E8-45DF-99F2-5A662E7464BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A8E17D5-20DD-4F29-9C32-DD1192CF43D1}
+	EndGlobalSection
+EndGlobal

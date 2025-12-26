@@ -1,0 +1,584 @@
+{
+  "ProvisioningState": 2,
+  "Sku": {
+    "Name": {},
+    "Tier": 0
+  },
+  "Kind": {},
+  "Identity": null,
+  "ExtendedLocation": null,
+  "StorageAccountProvisioningState": {},
+  "PrimaryEndpoints": {
+    "BlobUri": "https://arcaiservicesdev1.blob.core.windows.net/",
+    "QueueUri": "https://arcaiservicesdev1.queue.core.windows.net/",
+    "TableUri": "https://arcaiservicesdev1.table.core.windows.net/",
+    "FileUri": "https://arcaiservicesdev1.file.core.windows.net/",
+    "WebUri": "https://arcaiservicesdev1.z22.web.core.windows.net/",
+    "DfsUri": "https://arcaiservicesdev1.dfs.core.windows.net/",
+    "MicrosoftEndpoints": null,
+    "InternetEndpoints": null
+  },
+  "PrimaryLocation": {
+    "Name": "westus",
+    "DisplayName": "West US"
+  },
+  "StatusOfPrimary": 0,
+  "LastGeoFailoverOn": null,
+  "SecondaryLocation": null,
+  "StatusOfSecondary": null,
+  "CreatedOn": "2025-05-28T16:33:35.1116134+00:00",
+  "CustomDomain": null,
+  "SasPolicy": null,
+  "KeyExpirationPeriodInDays": null,
+  "KeyCreationTime": {
+    "Key1": "2025-05-28T16:33:35.2366182+00:00",
+    "Key2": "2025-05-28T16:33:35.2366182+00:00"
+  },
+  "SecondaryEndpoints": null,
+  "Encryption": {
+    "Services": {
+      "Blob": {
+        "IsEnabled": true,
+        "LastEnabledOn": "2025-05-28T16:33:35.2366182+00:00",
+        "KeyType": {}
+      },
+      "File": {
+        "IsEnabled": true,
+        "LastEnabledOn": "2025-05-28T16:33:35.2366182+00:00",
+        "KeyType": {}
+      },
+      "Table": null,
+      "Queue": null
+    },
+    "KeySource": {},
+    "RequireInfrastructureEncryption": null,
+    "KeyVaultProperties": null,
+    "EncryptionIdentity": null
+  },
+  "AccessTier": 0,
+  "AzureFilesIdentityBasedAuthentication": null,
+  "EnableHttpsTrafficOnly": true,
+  "NetworkRuleSet": {
+    "Bypass": {},
+    "ResourceAccessRules": [
+      {
+        "TenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+        "ResourceId": {
+          "ResourceType": {
+            "Namespace": "Microsoft.CognitiveServices",
+            "Type": "accounts"
+          },
+          "Name": "arc-ai-services-dev-1-language",
+          "Parent": {
+            "ResourceType": {
+              "Namespace": "Microsoft.Resources",
+              "Type": "resourceGroups"
+            },
+            "Name": "arc-ai-services-dev-1",
+            "Parent": {
+              "ResourceType": {
+                "Namespace": "Microsoft.Resources",
+                "Type": "subscriptions"
+              },
+              "Name": "5e721b5f-a177-4300-a86c-b5e87b078398",
+              "Parent": {
+                "ResourceType": {
+                  "Namespace": "Microsoft.Resources",
+                  "Type": "tenants"
+                },
+                "Name": "",
+                "Parent": null,
+                "SubscriptionId": null,
+                "Provider": null,
+                "Location": null,
+                "ResourceGroupName": null
+              },
+              "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+              "Provider": null,
+              "Location": null,
+              "ResourceGroupName": null
+            },
+            "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+            "Provider": null,
+            "Location": null,
+            "ResourceGroupName": "arc-ai-services-dev-1"
+          },
+          "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+          "Provider": null,
+          "Location": null,
+          "ResourceGroupName": "arc-ai-services-dev-1"
+        }
+      },
+      {
+        "TenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+        "ResourceId": {
+          "ResourceType": {
+            "Namespace": "Microsoft.CognitiveServices",
+            "Type": "accounts"
+          },
+          "Name": "arc-ai-services-dev-1-translation",
+          "Parent": {
+            "ResourceType": {
+              "Namespace": "Microsoft.Resources",
+              "Type": "resourceGroups"
+            },
+            "Name": "arc-ai-services-dev-1",
+            "Parent": {
+              "ResourceType": {
+                "Namespace": "Microsoft.Resources",
+                "Type": "subscriptions"
+              },
+              "Name": "5e721b5f-a177-4300-a86c-b5e87b078398",
+              "Parent": {
+                "ResourceType": {
+                  "Namespace": "Microsoft.Resources",
+                  "Type": "tenants"
+                },
+                "Name": "",
+                "Parent": null,
+                "SubscriptionId": null,
+                "Provider": null,
+                "Location": null,
+                "ResourceGroupName": null
+              },
+              "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+              "Provider": null,
+              "Location": null,
+              "ResourceGroupName": null
+            },
+            "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+            "Provider": null,
+            "Location": null,
+            "ResourceGroupName": "arc-ai-services-dev-1"
+          },
+          "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+          "Provider": null,
+          "Location": null,
+          "ResourceGroupName": "arc-ai-services-dev-1"
+        }
+      },
+      {
+        "TenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+        "ResourceId": {
+          "ResourceType": {
+            "Namespace": "Microsoft.Security",
+            "Type": "datascanners"
+          },
+          "Name": "storageDataScanner",
+          "Parent": {
+            "ResourceType": {
+              "Namespace": "Microsoft.Resources",
+              "Type": "subscriptions"
+            },
+            "Name": "5e721b5f-a177-4300-a86c-b5e87b078398",
+            "Parent": {
+              "ResourceType": {
+                "Namespace": "Microsoft.Resources",
+                "Type": "tenants"
+              },
+              "Name": "",
+              "Parent": null,
+              "SubscriptionId": null,
+              "Provider": null,
+              "Location": null,
+              "ResourceGroupName": null
+            },
+            "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+            "Provider": null,
+            "Location": null,
+            "ResourceGroupName": null
+          },
+          "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+          "Provider": null,
+          "Location": null,
+          "ResourceGroupName": null
+        }
+      }
+    ],
+    "VirtualNetworkRules": [],
+    "IPRules": [
+      {
+        "IPAddressOrRange": "157.58.216.64/26",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "207.68.190.32/27",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "167.220.249.128/26",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "13.106.4.96/27",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "20.125.0.0/18",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "20.236.0.0/18",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "50.47.21.88",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "131.107.147.248",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "50.37.88.193",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "70.37.0.0/18",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "4.255.128.0/17",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "70.37.16.0/20",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "50.35.96.199",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "20.191.64.0/18",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "52.148.128.0/18",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "97.113.138.193",
+        "Action": {}
+      },
+      {
+        "IPAddressOrRange": "20.236.10.206",
+        "Action": {}
+      }
+    ],
+    "DefaultAction": 1
+  },
+  "IsSftpEnabled": null,
+  "IsLocalUserEnabled": null,
+  "IsExtendedGroupEnabled": null,
+  "IsHnsEnabled": true,
+  "GeoReplicationStats": null,
+  "IsFailoverInProgress": null,
+  "LargeFileSharesState": null,
+  "PrivateEndpointConnections": [
+    {
+      "PrivateEndpointId": {
+        "ResourceType": {
+          "Namespace": "Microsoft.Network",
+          "Type": "privateEndpoints"
+        },
+        "Name": "arcaiservicesdev1-storage-blob-pe",
+        "Parent": {
+          "ResourceType": {
+            "Namespace": "Microsoft.Resources",
+            "Type": "resourceGroups"
+          },
+          "Name": "arc-ai-services-dev-1",
+          "Parent": {
+            "ResourceType": {
+              "Namespace": "Microsoft.Resources",
+              "Type": "subscriptions"
+            },
+            "Name": "5e721b5f-a177-4300-a86c-b5e87b078398",
+            "Parent": {
+              "ResourceType": {
+                "Namespace": "Microsoft.Resources",
+                "Type": "tenants"
+              },
+              "Name": "",
+              "Parent": null,
+              "SubscriptionId": null,
+              "Provider": null,
+              "Location": null,
+              "ResourceGroupName": null
+            },
+            "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+            "Provider": null,
+            "Location": null,
+            "ResourceGroupName": null
+          },
+          "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+          "Provider": null,
+          "Location": null,
+          "ResourceGroupName": "arc-ai-services-dev-1"
+        },
+        "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+        "Provider": null,
+        "Location": null,
+        "ResourceGroupName": "arc-ai-services-dev-1"
+      },
+      "ConnectionState": {
+        "Status": {},
+        "Description": "Auto-Approved",
+        "ActionRequired": "None"
+      },
+      "ProvisioningState": {},
+      "Id": {
+        "ResourceType": {
+          "Namespace": "Microsoft.Storage",
+          "Type": "storageAccounts/privateEndpointConnections"
+        },
+        "Name": "arcaiservicesdev1.85694926-6d6a-4dfc-9c91-0afe8af2ec6b",
+        "Parent": {
+          "ResourceType": {
+            "Namespace": "Microsoft.Storage",
+            "Type": "storageAccounts"
+          },
+          "Name": "arcaiservicesdev1",
+          "Parent": {
+            "ResourceType": {
+              "Namespace": "Microsoft.Resources",
+              "Type": "resourceGroups"
+            },
+            "Name": "arc-ai-services-dev-1",
+            "Parent": {
+              "ResourceType": {
+                "Namespace": "Microsoft.Resources",
+                "Type": "subscriptions"
+              },
+              "Name": "5e721b5f-a177-4300-a86c-b5e87b078398",
+              "Parent": {
+                "ResourceType": {
+                  "Namespace": "Microsoft.Resources",
+                  "Type": "tenants"
+                },
+                "Name": "",
+                "Parent": null,
+                "SubscriptionId": null,
+                "Provider": null,
+                "Location": null,
+                "ResourceGroupName": null
+              },
+              "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+              "Provider": null,
+              "Location": null,
+              "ResourceGroupName": null
+            },
+            "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+            "Provider": null,
+            "Location": null,
+            "ResourceGroupName": "arc-ai-services-dev-1"
+          },
+          "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+          "Provider": null,
+          "Location": null,
+          "ResourceGroupName": "arc-ai-services-dev-1"
+        },
+        "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+        "Provider": null,
+        "Location": null,
+        "ResourceGroupName": "arc-ai-services-dev-1"
+      },
+      "Name": "arcaiservicesdev1.85694926-6d6a-4dfc-9c91-0afe8af2ec6b",
+      "ResourceType": {
+        "Namespace": "Microsoft.Storage",
+        "Type": "storageAccounts/privateEndpointConnections"
+      },
+      "SystemData": null
+    },
+    {
+      "PrivateEndpointId": {
+        "ResourceType": {
+          "Namespace": "Microsoft.Network",
+          "Type": "privateEndpoints"
+        },
+        "Name": "arcaiservicesdev1-storage-queue-pe",
+        "Parent": {
+          "ResourceType": {
+            "Namespace": "Microsoft.Resources",
+            "Type": "resourceGroups"
+          },
+          "Name": "arc-ai-services-dev-1",
+          "Parent": {
+            "ResourceType": {
+              "Namespace": "Microsoft.Resources",
+              "Type": "subscriptions"
+            },
+            "Name": "5e721b5f-a177-4300-a86c-b5e87b078398",
+            "Parent": {
+              "ResourceType": {
+                "Namespace": "Microsoft.Resources",
+                "Type": "tenants"
+              },
+              "Name": "",
+              "Parent": null,
+              "SubscriptionId": null,
+              "Provider": null,
+              "Location": null,
+              "ResourceGroupName": null
+            },
+            "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+            "Provider": null,
+            "Location": null,
+            "ResourceGroupName": null
+          },
+          "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+          "Provider": null,
+          "Location": null,
+          "ResourceGroupName": "arc-ai-services-dev-1"
+        },
+        "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+        "Provider": null,
+        "Location": null,
+        "ResourceGroupName": "arc-ai-services-dev-1"
+      },
+      "ConnectionState": {
+        "Status": {},
+        "Description": "Auto-Approved",
+        "ActionRequired": "None"
+      },
+      "ProvisioningState": {},
+      "Id": {
+        "ResourceType": {
+          "Namespace": "Microsoft.Storage",
+          "Type": "storageAccounts/privateEndpointConnections"
+        },
+        "Name": "arcaiservicesdev1.ab4bf390-dba1-46cb-8488-a61ed7e25bcb",
+        "Parent": {
+          "ResourceType": {
+            "Namespace": "Microsoft.Storage",
+            "Type": "storageAccounts"
+          },
+          "Name": "arcaiservicesdev1",
+          "Parent": {
+            "ResourceType": {
+              "Namespace": "Microsoft.Resources",
+              "Type": "resourceGroups"
+            },
+            "Name": "arc-ai-services-dev-1",
+            "Parent": {
+              "ResourceType": {
+                "Namespace": "Microsoft.Resources",
+                "Type": "subscriptions"
+              },
+              "Name": "5e721b5f-a177-4300-a86c-b5e87b078398",
+              "Parent": {
+                "ResourceType": {
+                  "Namespace": "Microsoft.Resources",
+                  "Type": "tenants"
+                },
+                "Name": "",
+                "Parent": null,
+                "SubscriptionId": null,
+                "Provider": null,
+                "Location": null,
+                "ResourceGroupName": null
+              },
+              "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+              "Provider": null,
+              "Location": null,
+              "ResourceGroupName": null
+            },
+            "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+            "Provider": null,
+            "Location": null,
+            "ResourceGroupName": "arc-ai-services-dev-1"
+          },
+          "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+          "Provider": null,
+          "Location": null,
+          "ResourceGroupName": "arc-ai-services-dev-1"
+        },
+        "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+        "Provider": null,
+        "Location": null,
+        "ResourceGroupName": "arc-ai-services-dev-1"
+      },
+      "Name": "arcaiservicesdev1.ab4bf390-dba1-46cb-8488-a61ed7e25bcb",
+      "ResourceType": {
+        "Namespace": "Microsoft.Storage",
+        "Type": "storageAccounts/privateEndpointConnections"
+      },
+      "SystemData": null
+    }
+  ],
+  "RoutingPreference": null,
+  "BlobRestoreStatus": null,
+  "AllowBlobPublicAccess": false,
+  "MinimumTlsVersion": {},
+  "AllowSharedKeyAccess": false,
+  "IsNfsV3Enabled": null,
+  "AllowCrossTenantReplication": false,
+  "IsDefaultToOAuthAuthentication": null,
+  "PublicNetworkAccess": {},
+  "ImmutableStorageWithVersioning": null,
+  "AllowedCopyScope": null,
+  "StorageAccountSkuConversionStatus": null,
+  "DnsEndpointType": null,
+  "IsSkuConversionBlocked": null,
+  "IsAccountMigrationInProgress": null,
+  "Tags": {
+    "Env": "Pre-Production",
+    "Service": "arc"
+  },
+  "Location": {
+    "Name": "westus",
+    "DisplayName": "West US"
+  },
+  "Id": {
+    "ResourceType": {
+      "Namespace": "Microsoft.Storage",
+      "Type": "storageAccounts"
+    },
+    "Name": "arcaiservicesdev1",
+    "Parent": {
+      "ResourceType": {
+        "Namespace": "Microsoft.Resources",
+        "Type": "resourceGroups"
+      },
+      "Name": "arc-ai-services-dev-1",
+      "Parent": {
+        "ResourceType": {
+          "Namespace": "Microsoft.Resources",
+          "Type": "subscriptions"
+        },
+        "Name": "5e721b5f-a177-4300-a86c-b5e87b078398",
+        "Parent": {
+          "ResourceType": {
+            "Namespace": "Microsoft.Resources",
+            "Type": "tenants"
+          },
+          "Name": "",
+          "Parent": null,
+          "SubscriptionId": null,
+          "Provider": null,
+          "Location": null,
+          "ResourceGroupName": null
+        },
+        "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+        "Provider": null,
+        "Location": null,
+        "ResourceGroupName": null
+      },
+      "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+      "Provider": null,
+      "Location": null,
+      "ResourceGroupName": "arc-ai-services-dev-1"
+    },
+    "SubscriptionId": "5e721b5f-a177-4300-a86c-b5e87b078398",
+    "Provider": null,
+    "Location": null,
+    "ResourceGroupName": "arc-ai-services-dev-1"
+  },
+  "Name": "arcaiservicesdev1",
+  "ResourceType": {
+    "Namespace": "Microsoft.Storage",
+    "Type": "storageAccounts"
+  },
+  "SystemData": null
+}
