@@ -19,12 +19,10 @@ namespace AzureDesigner
         TokenCredential _credential = null!;
         public TokenCredential CreateCredential()
         {
-            _credential ??= new AzureCliCredential();
-                
-            //    new InteractiveBrowserCredential(new InteractiveBrowserCredentialOptions
-            //{
-            //    TenantId = _tenantId
-            //});
+            _credential ??= new InteractiveBrowserCredential(new InteractiveBrowserCredentialOptions
+            {
+                TenantId = _tenantId
+            });
             return _credential;
         }
     }
