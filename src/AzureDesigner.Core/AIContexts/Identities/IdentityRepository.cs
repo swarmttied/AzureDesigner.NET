@@ -14,20 +14,14 @@ public interface IIdentityRepository
     Task LoadIdentities(string subdcriptionId);
 }
 
-public class IdentityRepository : IIdentityRepository
+public class IdentityRepository(ICredentialFactory credentialFactory, IIdMapping idMapping) : IIdentityRepository
 {
-    readonly ICredentialFactory _credentialFactory;
-    readonly IIdMapping _idMapping;
+    readonly ICredentialFactory _credentialFactory = credentialFactory ?? throw new ArgumentNullException(nameof(credentialFactory));
+    readonly IIdMapping _idMapping = idMapping;
 
     Dictionary<Guid, string> _managedIdentityLookup = new();
 
     public event EventHandler<FunctionCallEventArgs> FunctionCalled;
-
-    public IdentityRepository(ICredentialFactory credentialFactory, IIdMapping idMapping)
-    {
-        _credentialFactory = credentialFactory ?? throw new ArgumentNullException(nameof(credentialFactory));
-        _idMapping = idMapping;
-    }
 
     public async Task LoadIdentities(string subdcriptionId)
     {

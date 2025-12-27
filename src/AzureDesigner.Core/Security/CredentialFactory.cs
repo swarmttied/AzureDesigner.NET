@@ -8,13 +8,9 @@ namespace AzureDesigner
         TokenCredential CreateCredential();
     }
 
-    public class CredentialFactory : ICredentialFactory
+    public class CredentialFactory(string tenantId) : ICredentialFactory
     {
-        readonly string _tenantId;
-        public CredentialFactory(string tenantId)
-        {
-            _tenantId = tenantId;
-        }
+        readonly string _tenantId = tenantId;       
 
         TokenCredential _credential = null!;
         public TokenCredential CreateCredential()

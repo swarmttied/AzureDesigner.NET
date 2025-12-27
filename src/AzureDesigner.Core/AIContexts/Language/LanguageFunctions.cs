@@ -8,17 +8,12 @@ using SKLIb;
 
 namespace AzureDesigner.AIContexts.Language
 {
-    public class LanguageFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
+    public class LanguageFunctions(IIdMapping idMapping) : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
     {
         IDictionary<string, int> _nodeDict;
-        readonly IIdMapping _idMapping;
+        readonly IIdMapping _idMapping = idMapping;
 
         public event EventHandler<FunctionCallEventArgs> FunctionCalled;
-
-        public LanguageFunctions(IIdMapping idMapping)
-        {
-            _idMapping = idMapping;
-        }
 
         void INameToIdResolver.SetResolverSource(IEnumerable<Node> nodes)
         {

@@ -11,15 +11,10 @@ using SKLIb;
 
 namespace AzureDesigner.AIContexts.CosmosDB
 {
-    public class CosmosDBFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
+    public class CosmosDBFunctions(ICredentialFactory credentialFactory, IIdMapping idMapping) : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
     {
-        readonly ICredentialFactory _credentialFactory;
-        readonly IIdMapping _idMapping;
-        public CosmosDBFunctions(ICredentialFactory credentialFactory, IIdMapping idMapping)
-        {
-            _credentialFactory = credentialFactory;
-            _idMapping = idMapping;
-        }
+        readonly ICredentialFactory _credentialFactory = credentialFactory;
+        readonly IIdMapping _idMapping = idMapping;
 
         public event EventHandler<FunctionCallEventArgs> FunctionCalled;
 

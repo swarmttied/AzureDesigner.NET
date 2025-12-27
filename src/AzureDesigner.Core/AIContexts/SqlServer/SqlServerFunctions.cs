@@ -11,17 +11,12 @@ using SKLIb;
 
 namespace AzureDesigner.AIContexts.SqlServer
 {
-    public class SqlServerFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
+    public class SqlServerFunctions(IIdMapping idMapping) : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
     {
         IDictionary<string, int> _nodeDict;
-        readonly IIdMapping _idMapping;
+        readonly IIdMapping _idMapping = idMapping;
 
         public event EventHandler<FunctionCallEventArgs> FunctionCalled;
-
-        public SqlServerFunctions(IIdMapping idMapping)
-        {
-            _idMapping = idMapping;
-        }
 
         void INameToIdResolver.SetResolverSource(IEnumerable<Node> nodes)
         {

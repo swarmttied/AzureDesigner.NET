@@ -9,15 +9,10 @@ using SKLIb;
 
 namespace AzureDesigner.AIContexts.AppInsights
 {
-    public class AppInsightsFunctions : IFunctionCalled
+    public class AppInsightsFunctions(ICredentialFactory credentialFactory, IIdMapping idMapping) : IFunctionCalled
     {
-        readonly ICredentialFactory _credentialFactory;
-        readonly IIdMapping _idMapping;
-        public AppInsightsFunctions(ICredentialFactory credentialFactory, IIdMapping idMapping)
-        {
-            _credentialFactory = credentialFactory;
-            _idMapping = idMapping;
-        }
+        readonly ICredentialFactory _credentialFactory = credentialFactory;
+        readonly IIdMapping _idMapping = idMapping;
 
         public event EventHandler<FunctionCallEventArgs> FunctionCalled;
 

@@ -11,23 +11,15 @@ using SKLIb;
 
 namespace AzureDesigner.AIContexts.OpenAI
 {
-    public class OpenAIFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
+    public class OpenAIFunctions(ICredentialFactory credentialFactory, IRbacService rbacService,
+        IRoleGuids roleGuids, IIdMapping idMapping) : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
     {
-        readonly ICredentialFactory _credentialFactory;
-        readonly IRbacService _rbacService;
-        readonly IRoleGuids _roleGuids;
-        readonly IIdMapping _idMapping;
+        readonly ICredentialFactory _credentialFactory = credentialFactory;
+        readonly IRbacService _rbacService = rbacService;
+        readonly IRoleGuids _roleGuids = roleGuids;
+        readonly IIdMapping _idMapping = idMapping;
 
         public event EventHandler<FunctionCallEventArgs> FunctionCalled;
-
-        public OpenAIFunctions(ICredentialFactory credentialFactory, IRbacService rbacService,
-            IRoleGuids roleGuids, IIdMapping idMapping)
-        {
-            _credentialFactory = credentialFactory;
-            _rbacService = rbacService;
-            _roleGuids = roleGuids;
-            _idMapping = idMapping;
-        }
 
         [KernelFunction]
         public async Task<IEnumerable<string>> GetOpenAIManagedIdentityIdsWithRbacAccess(int id, string roleName)

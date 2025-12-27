@@ -12,21 +12,12 @@ using SKLIb;
 
 namespace AzureDesigner.AIContexts.Sites;
 
-public class SitesFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
+public class SitesFunctions(ICredentialFactory credentialFactory, IIdMapping idMapping) : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
 {
-    readonly ICredentialFactory _credentialFactory;
-    readonly IIdMapping _idMapping;
-
-
+    readonly ICredentialFactory _credentialFactory = credentialFactory ?? throw new ArgumentNullException(nameof(credentialFactory));
+    readonly IIdMapping _idMapping = idMapping ?? throw new ArgumentNullException(nameof(idMapping));
 
     public event EventHandler<FunctionCallEventArgs> FunctionCalled;
-
-    public SitesFunctions(ICredentialFactory credentialFactory, IIdMapping idMapping)
-    {
-        _credentialFactory = credentialFactory ?? throw new ArgumentNullException(nameof(credentialFactory));
-        _idMapping = idMapping ?? throw new ArgumentNullException(nameof(idMapping));
-    }
-
 
     [KernelFunction]
     //[Description("The function to call for get info of resource type '*/sites/*', '*/sites/*'")]

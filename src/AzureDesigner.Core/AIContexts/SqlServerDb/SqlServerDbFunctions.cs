@@ -11,15 +11,9 @@ using SKLIb;
 
 namespace AzureDesigner.AIContexts.SqlServerDb;
 
-public class SqlServerDbFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
+public class SqlServerDbFunctions(IIdMapping idMapping) : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
 {
-    readonly IIdMapping _idMapping;
-
-    public SqlServerDbFunctions(IIdMapping idMapping)
-    {
-        _idMapping = idMapping;
-    }
-
+    readonly IIdMapping _idMapping = idMapping;
     public event EventHandler<FunctionCallEventArgs> FunctionCalled;
 
     IDictionary<string, int> _nodeDict;
