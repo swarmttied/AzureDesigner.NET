@@ -103,11 +103,10 @@ namespace SKLIb
 
             var client = new AzureOpenAIClient(new Uri(settings.Endpoint), credential);
             var chatClient = client.GetChatClient(settings.Deployment).AsIChatClient();
-            //var aiTools = services.Select(o=>o).OfType<AITool>();
             var functionSources = services.Select(o => o)
                                              .OfType<IAIFunctionsSource>();
             IList<AITool> toolList = functionSources.SelectMany(o => o.GetAIFunctions()).ToList();
-            _agent = chatClient.CreateAIAgent(tools: toolList);
+            _agent = chatClient.AsAIAgent(tools: toolList);
 
         }
 
@@ -125,7 +124,7 @@ namespace SKLIb
 
             bool success = false;
             IReadOnlyList<ChatMessageContent>? messageContents = null;
-            AgentRunResponse agentRunResponse = null;
+            AgentResponse agentRunResponse = null;
             int waitTimeInSeconds = 0;
             do
             {
@@ -145,28 +144,10 @@ namespace SKLIb
                             // ChatHistory does not implement deep clone, but passing reference is fine if no mutation until response.
                             localHistory = _chatHistory;
                         }
-                        //messageContents = await _chatService.GetChatMessageContentsAsync(
-                        //                      _chatHistory,
-                        //                      _openAIPromptExecutionSettings,
-                        //                      kernel: _kernel);
-
-
                     }
                     else
                     {
-                        //messageContents = await _chatService.GetChatMessageContentsAsync(
-                        //                       prompt,
-                        //                       _openAIPromptExecutionSettings,
-                        //                       kernel: _kernel);
-
                         agentRunResponse = await _agent.RunAsync(new ChatMessage(ChatRole.User, prompt));
-                        //await foreach (var chunk in agentResult)
-                        //{
-                        //    if (chunk is not null)
-                        //    {
-                        //        FunctionCalled?.Invoke(this, new FunctionCallEventArgs(chunk.Text));
-                        //    }
-                        //}
                     }
                     success = true;
                 }
@@ -199,13 +180,6 @@ namespace SKLIb
             while (!success);
 
             string fullMessage = "";
-            //if (messageContents != null)
-            //{
-            //    foreach (var msg in messageContents)
-            //    {
-            //        fullMessage += msg.Content;
-            //    }
-            //}
 
             if (agentRunResponse != null)
             {
