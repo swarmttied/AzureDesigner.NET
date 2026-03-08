@@ -12,7 +12,7 @@
     <PackageVersion Include="Azure.ResourceManager.CosmosDB" Version="1.4.0" />
     <PackageVersion Include="Azure.ResourceManager.ManagedServiceIdentities" Version="1.4.0" />
     <PackageVersion Include="Azure.ResourceManager.Storage" Version="1.6.0" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Converters" Version="8.2.250402" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Converters" Version="8.2.251219" />
     <PackageVersion Include="Microsoft.Agents.AI" Version="1.0.0-rc3" />
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.0.0-preview3.25342.7" />
     <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.1" />
@@ -21,7 +21,7 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="11.0.0-preview.1.26104.118" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="11.0.0-preview.1.26104.118" />
     <PackageVersion Include="Microsoft.SemanticKernel" Version="1.73.0" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.250907003" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.5-beta1" />
   </ItemGroup>

@@ -1,8 +1,6 @@
-﻿using System.Net;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Azure.AI.OpenAI;
 using Azure.Core;
-using Azure.Identity;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
@@ -57,10 +55,8 @@ namespace SKLIb
         public event EventHandler<ExceptionEventArgs>? ExceptionOccurred;
 
         readonly ChatHistory _chatHistory;
-        readonly IChatCompletionService _chatService;
         readonly OpenAIPromptExecutionSettings _openAIPromptExecutionSettings;
         readonly IAIResponseExtractor aIResponseExtractor;
-        readonly Kernel _kernel;
         readonly bool _saveChatHistory;  // Still contemplating whether to use chat history or NOT 
         readonly AIAgent _agent;
 
@@ -87,7 +83,6 @@ namespace SKLIb
                 _openAIPromptExecutionSettings.ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions;
             }
 
-            _kernel = builder.Build();
 
             _chatHistory = new ChatHistory();
             if (!string.IsNullOrEmpty(settings.Instructions))
@@ -97,7 +92,6 @@ namespace SKLIb
                     _chatHistory.AddSystemMessage(settings.Instructions);
                 }
             }
-            _chatService = _kernel.GetRequiredService<IChatCompletionService>();
 
 
 
@@ -168,7 +162,7 @@ namespace SKLIb
                     else if (ex.Message.Contains("400"))
                     {
                         var msg = "Bad request. Please check the prompt and try again.";
-                        ResponseReceived?.Invoke(this, new ResponseEventArgs { Response = ex.Message });
+                        ResponseReceived?.Invoke(this, new ResponseEventArgs { Response = $"{msg} /n/n/{ex.Message}" });
                         success = true; // do not retry
                     }
                     else
