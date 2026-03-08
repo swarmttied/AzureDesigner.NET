@@ -13,20 +13,14 @@ public interface IAppInsightsRepository
     int ResolveAppInsightInstrumentationKeyToID(Guid instrumentationKey);
 }
 
-public class AppInsightsRepository : IAppInsightsRepository
+public class AppInsightsRepository(ICredentialFactory credentialFactory, IIdMapping idMapping) : IAppInsightsRepository
 {
-    readonly ICredentialFactory _credentialFactory;
-    readonly IIdMapping _idMapping;
+    readonly ICredentialFactory _credentialFactory = credentialFactory ?? throw new ArgumentNullException(nameof(credentialFactory));
+    readonly IIdMapping _idMapping = idMapping;
 
     Dictionary<Guid, string> _appInsightsIdLookup = new();
 
     public event EventHandler<FunctionCallEventArgs> FunctionCalled;
-
-    public AppInsightsRepository(ICredentialFactory credentialFactory, IIdMapping idMapping)
-    {
-        _credentialFactory = credentialFactory ?? throw new ArgumentNullException(nameof(credentialFactory));
-        _idMapping = idMapping;
-    }
 
     public async Task LoadAppInsights(string subdcriptionId)
     {

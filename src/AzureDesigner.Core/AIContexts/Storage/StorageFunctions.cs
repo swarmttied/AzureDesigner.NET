@@ -5,34 +5,25 @@ using Azure.ResourceManager.Storage;
 using Azure.ResourceManager.Storage.Models;
 using AzureDesigner.Models;
 using AzureDesigner.Services;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using SKLIb;
 
 namespace AzureDesigner.AIContexts.Storage;
 
-public class StorageFunctions : IFunctionCalled, INameToIdResolver
+public class StorageFunctions(ICredentialFactory credentialFactory, IRbacService rbacService,
+    IRoleGuids roleGuids, IIdMapping idMapping) : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
 {
-    readonly ICredentialFactory _credentialFactory;
-    readonly IRbacService _rbacService;
-    readonly IRoleGuids _roleGuids;
-    readonly IIdMapping _idMapping;
+    readonly ICredentialFactory _credentialFactory = credentialFactory ?? throw new ArgumentNullException(nameof(credentialFactory));
+    readonly IRbacService _rbacService = rbacService ?? throw new ArgumentNullException(nameof(rbacService));
+    readonly IRoleGuids _roleGuids = roleGuids ?? throw new ArgumentNullException(nameof(roleGuids));
 
     public event EventHandler<FunctionCallEventArgs> FunctionCalled;
-
-
-    public StorageFunctions(ICredentialFactory credentialFactory, IRbacService rbacService,
-        IRoleGuids roleGuids, IIdMapping idMapping)
-    {
-        _credentialFactory = credentialFactory ?? throw new ArgumentNullException(nameof(credentialFactory));
-        _rbacService = rbacService ?? throw new ArgumentNullException(nameof(rbacService));
-        _roleGuids = roleGuids ?? throw new ArgumentNullException(nameof(roleGuids));
-        _idMapping = idMapping;
-    }
 
     [KernelFunction]
     public async Task<StorageAccountData> GetStorageAccountInfo(int id)
     {
-        string fullId = _idMapping.GetFullId(id);
+        string fullId = idMapping.GetFullId(id);
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(GetStorageAccountInfo)}("{id}")"""));
         var credential = _credentialFactory.CreateCredential();
         var armClient = new ArmClient(credential);
@@ -62,7 +53,7 @@ public class StorageFunctions : IFunctionCalled, INameToIdResolver
     [KernelFunction]
     public async Task<IEnumerable<string>> GetStorageManagedIdentityIdsWithRbacAccess(int id, string roleName)
     {
-        string fullId = _idMapping.GetFullId(id);
+        string fullId = idMapping.GetFullId(id);
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(GetStorageManagedIdentityIdsWithRbacAccess)}("{id}", "{roleName})"""));
         var roleDefGuid = _roleGuids[roleName];
         var clientIds = await _rbacService.GetClientIdsWithRbacAsync(fullId, roleDefGuid);
@@ -73,7 +64,7 @@ public class StorageFunctions : IFunctionCalled, INameToIdResolver
     public async Task AddManagedIdentityWithRbacRoleToStorage(int storageId, string roleName, string clientId)
     {
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(AddManagedIdentityWithRbacRoleToStorage)}("{storageId}", "{roleName}", "{clientId}")"""));
-        string fullId = _idMapping.GetFullId(storageId);
+        string fullId = idMapping.GetFullId(storageId);
         var roleDefGuid = _roleGuids[roleName];
         await _rbacService.AddClientIdWithRbacAsync(fullId, roleDefGuid, clientId);
     }
@@ -81,7 +72,7 @@ public class StorageFunctions : IFunctionCalled, INameToIdResolver
     [KernelFunction]
     public async Task UpdateStorageAccountPublicNetworkAccess(int id, string ipAddress)
     {
-        string fullId = _idMapping.GetFullId(id);
+        string fullId = idMapping.GetFullId(id);
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(UpdateStorageAccountPublicNetworkAccess)}("{id}", "{ipAddress}")"""));
         if (string.IsNullOrWhiteSpace(fullId))
             throw new ArgumentNullException(nameof(id));
@@ -124,7 +115,7 @@ public class StorageFunctions : IFunctionCalled, INameToIdResolver
     [KernelFunction]
     public async Task<bool?> IsStorageLocalUserEnabled(int id)
     {
-        string fullId = _idMapping.GetFullId(id);
+        string fullId = idMapping.GetFullId(id);
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(IsStorageLocalUserEnabled)}("{id}")"""));
         var credential = _credentialFactory.CreateCredential();
         var armClient = new ArmClient(credential);
@@ -138,7 +129,7 @@ public class StorageFunctions : IFunctionCalled, INameToIdResolver
     [KernelFunction]
     public async Task UpdateStorageBlobPublicAccess(int id, bool allowBlobPublicAccess)
     {
-        string fullId = _idMapping.GetFullId(id);
+        string fullId = idMapping.GetFullId(id);
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(UpdateStorageBlobPublicAccess)}("{id}", {allowBlobPublicAccess})"""));
 
         if (string.IsNullOrWhiteSpace(fullId))
@@ -170,7 +161,7 @@ public class StorageFunctions : IFunctionCalled, INameToIdResolver
     [KernelFunction]
     public async Task UpdateStorageIsLocalUserEnabled(int id, bool enableLocalUser)
     {
-        string fullId = _idMapping.GetFullId(id);
+        string fullId = idMapping.GetFullId(id);
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(UpdateStorageIsLocalUserEnabled)}("{id}", {enableLocalUser})"""));
 
         if (string.IsNullOrWhiteSpace(fullId))
@@ -202,7 +193,7 @@ public class StorageFunctions : IFunctionCalled, INameToIdResolver
     [KernelFunction]
     public async Task UpdateStorageAllowedSharedKeyAccess(int id, bool allowSharedKeyAccess)
     {
-        string fullId = _idMapping.GetFullId(id);
+        string fullId = idMapping.GetFullId(id);
         FunctionCalled?.Invoke(this, new FunctionCallEventArgs($"""{nameof(UpdateStorageAllowedSharedKeyAccess)}("{id}", {allowSharedKeyAccess})"""));
 
         if (string.IsNullOrWhiteSpace(fullId))
@@ -248,6 +239,21 @@ public class StorageFunctions : IFunctionCalled, INameToIdResolver
         }
 
         return id;
+    }
+
+    public IEnumerable<AITool> GetAIFunctions()
+    {
+        return [AIFunctionFactory.Create(ResolveStorageAccountNameToID),
+                AIFunctionFactory.Create(GetStorageAccountInfo),
+                AIFunctionFactory.Create(GetIpAddress),
+                AIFunctionFactory.Create(GetStorageManagedIdentityIdsWithRbacAccess),
+                AIFunctionFactory.Create(AddManagedIdentityWithRbacRoleToStorage),
+                AIFunctionFactory.Create(UpdateStorageAccountPublicNetworkAccess),
+                AIFunctionFactory.Create(IsStorageLocalUserEnabled),
+                AIFunctionFactory.Create(UpdateStorageBlobPublicAccess),
+                AIFunctionFactory.Create(UpdateStorageIsLocalUserEnabled),
+                AIFunctionFactory.Create(UpdateStorageAllowedSharedKeyAccess)
+        ];
     }
 }
 

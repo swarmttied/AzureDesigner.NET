@@ -5,20 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AzureDesigner.Models;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using SKLIb;
 
 namespace AzureDesigner.AIContexts.SqlServerDb;
 
-public class SqlServerDbFunctions : IFunctionCalled, INameToIdResolver
+public class SqlServerDbFunctions(IIdMapping idMapping) : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
 {
-    readonly IIdMapping _idMapping;
-
-    public SqlServerDbFunctions(IIdMapping idMapping)
-    {
-        _idMapping = idMapping;
-    }
-
+    readonly IIdMapping _idMapping = idMapping;
     public event EventHandler<FunctionCallEventArgs> FunctionCalled;
 
     IDictionary<string, int> _nodeDict;
@@ -39,5 +34,10 @@ public class SqlServerDbFunctions : IFunctionCalled, INameToIdResolver
         }
 
         return id;
+    }
+
+    public IEnumerable<AITool> GetAIFunctions()
+    {
+        return [AIFunctionFactory.Create(ResolveSqlServerDbNameToID)];
     }
 }

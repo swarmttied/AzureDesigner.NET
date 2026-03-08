@@ -63,50 +63,6 @@ namespace AzureDesigner
             }
         }
 
-        private bool TryHandleFixIssueRequest(string jsonResponse)
-        {
-            if (string.IsNullOrWhiteSpace(jsonResponse))
-                return false;
-
-            FixIssueRequest? request = null;
-            try
-            {
-                request = JsonConvert.DeserializeObject<FixIssueRequest>(jsonResponse);
-                if (request?.RequestType != "IssueFix")
-                    return false;
-            }
-            catch (Newtonsoft.Json.JsonException)
-            {
-                // Not a valid FixIssueRequest
-                return false;
-            }
-
-            IssueFixed?.Invoke(this, new FixIssueEventArgs(request));
-            return true;
-        }
-
-        private bool TryHandleFixRiskRequest(string jsonResponse)
-        {
-            if (string.IsNullOrWhiteSpace(jsonResponse))
-                return false;
-
-            FixRiskRequest? request = null;
-            try
-            {
-                request = JsonConvert.DeserializeObject<FixRiskRequest>(jsonResponse);
-                if (request?.RequestType != "RiskFix")
-                    return false;
-            }
-            catch (Newtonsoft.Json.JsonException)
-            {
-                // Not a valid FixRiskRequest
-                return false;
-            }
-
-            RiskFixed?.Invoke(this, new FixRiskEventArgs(request));
-            return true;
-        }
-
         public async Task FixIssueAsync(int rootServiceId, int serviceId, Issue issue)
         {
             var request = new FixIssueRequest

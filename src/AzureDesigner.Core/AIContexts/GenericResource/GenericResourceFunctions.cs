@@ -1,10 +1,11 @@
 ﻿using AzureDesigner.Models;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using SKLIb;
 
 namespace AzureDesigner.AIContexts.GenericResource;
 
-public class GenericResourceFunctions : IFunctionCalled, INameToIdResolver
+public class GenericResourceFunctions : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
 {
     public event EventHandler<FunctionCallEventArgs> FunctionCalled;
 
@@ -26,5 +27,10 @@ public class GenericResourceFunctions : IFunctionCalled, INameToIdResolver
         }
 
         throw new ArgumentException($"Unknown full resource ID: {fullResourceId}", nameof(fullResourceId));
+    }
+
+    public IEnumerable<AITool> GetAIFunctions()
+    {
+        return [AIFunctionFactory.Create(ResolveFullResourceIdToCompactId)];
     }
 }

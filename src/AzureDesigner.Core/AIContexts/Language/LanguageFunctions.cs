@@ -2,22 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AzureDesigner.Models;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using SKLIb;
 
 namespace AzureDesigner.AIContexts.Language
 {
-    public class LanguageFunctions : IFunctionCalled, INameToIdResolver
+    public class LanguageFunctions(IIdMapping idMapping) : IFunctionCalled, INameToIdResolver, IAIFunctionsSource
     {
         IDictionary<string, int> _nodeDict;
-        readonly IIdMapping _idMapping;
+        readonly IIdMapping _idMapping = idMapping;
 
         public event EventHandler<FunctionCallEventArgs> FunctionCalled;
-
-        public LanguageFunctions(IIdMapping idMapping)
-        {
-            _idMapping = idMapping;
-        }
 
         void INameToIdResolver.SetResolverSource(IEnumerable<Node> nodes)
         {
@@ -38,7 +34,12 @@ namespace AzureDesigner.AIContexts.Language
 
             return id;
         }
+
+        public IEnumerable<AITool> GetAIFunctions()
+        {
+            return [AIFunctionFactory.Create(ResolveLanguageAccountNameToID)];
+        }
     }
 }
-                
+
 
