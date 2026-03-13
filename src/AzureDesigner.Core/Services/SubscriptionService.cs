@@ -12,6 +12,9 @@ public interface ISubscriptionService
 {
     Task<IEnumerable<Node>> GetServicesAsync(string subscriptionId);
     Task<IEnumerable<Subscription>> GetSubscriptionIds();
+
+    Task<IEnumerable<ResourceGroup>> GetResourceGroupsAsync(string subscriptionId);
+
     Task<IEnumerable<Setting>> GetAppSettingsAsync(string resourceId);
 }
 
@@ -109,5 +112,29 @@ public class SubscriptionService : ISubscriptionService
 
 
         return appSettings;
+    }
+
+    public async Task<IEnumerable<ResourceGroup>> GetResourceGroupsAsync(string subscriptionId)
+    {
+        TokenCredential credential = _credentialFactory.CreateCredential();
+        ArmClient armClient = new(credential);
+        var subscription = armClient.GetSubscriptionResource(new ResourceIdentifier($"/subscriptions/{subscriptionId}"));
+
+        List<ResourceGroup> resourceGroups = new();
+
+        await foreach (var resourceGroup in subscription.GetResourceGroups())
+        {
+            if (resourceGroup.HasData)
+            {
+                resourceGroups.Add(new ResourceGroup
+                {
+                    Id = resourceGroup.Data.Id,
+                    Name = resourceGroup.Data.Name,
+                    Location = resourceGroup.Data.Location.DisplayName
+                });
+            }
+        }
+
+        return resourceGroups;
     }
 }
