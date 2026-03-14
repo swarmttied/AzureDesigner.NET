@@ -12,10 +12,9 @@ public interface ISubscriptionService
 {
     Task<IEnumerable<Node>> GetServicesAsync(string subscriptionId);
     Task<IEnumerable<Subscription>> GetSubscriptionIds();
-
     Task<IEnumerable<ResourceGroup>> GetResourceGroupsAsync(string subscriptionId);
-
     Task<IEnumerable<Setting>> GetAppSettingsAsync(string resourceId);
+    Task<IEnumerable<Node>> GetResourceGroupServices(string resourceGroupId);
 }
 
 public class SubscriptionService : ISubscriptionService
@@ -59,6 +58,40 @@ public class SubscriptionService : ISubscriptionService
         List<Node> services = new();
 
         await foreach (var resource in subscription.GetGenericResourcesAsync())
+        {
+            if (!resource.HasData)
+                continue;
+
+            services.Add(new Node
+            {
+                ResourceId = resource.Data?.Id ?? "",
+                Name = resource.Data.Name,
+                Type = GetType(resource.Data),
+                ResourceGroupName = resource.Data?.Id?.ResourceGroupName ?? "",
+                Location = resource.Data.Location.DisplayName,
+                PortalUrl = $"https://portal.azure.com/#@/resource{resource.Data.Id}"
+            });
+        }
+
+        return services;
+
+        string GetType(GenericResourceData data)
+        {
+            if (string.IsNullOrEmpty(data.Kind))
+                return data.ResourceType.ToString();
+            return $"{data.ResourceType}/{data.Kind}"; 
+        }
+    }
+
+    public async Task<IEnumerable<Node>> GetResourceGroupServices(string resourceGroupId)
+    {
+        TokenCredential credential = _credentialFactory.CreateCredential();
+        ArmClient armClient = new(credential);
+        var resourceGroup = armClient.GetResourceGroupResource(new ResourceIdentifier(resourceGroupId));
+
+        List<Node> services = new();
+
+        await foreach (var resource in resourceGroup.GetGenericResourcesAsync())
         {
             if (!resource.HasData)
                 continue;
@@ -131,6 +164,7 @@ public class SubscriptionService : ISubscriptionService
                     Id = resourceGroup.Data.Id,
                     Name = resourceGroup.Data.Name,
                     Location = resourceGroup.Data.Location.DisplayName
+                   
                 });
             }
         }
