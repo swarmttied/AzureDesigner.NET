@@ -38,6 +38,7 @@ public class MainViewModel : ViewModelBase
     bool _fetchingDependencies = false; // TODO: this might be redundant with IsNotBusy
    
     private ObservableCollection<Subscription> _subscriptions = new();
+    private ObservableCollection<ResourceGroup> _resourceGroups = new();
     private Subscription subscription = null!;
     bool _appsOnly = false;
     private ObservableCollection<NodeViewModel> _services = new();
@@ -234,6 +235,31 @@ public class MainViewModel : ViewModelBase
             if (_subscriptions == value)
                 return;
             _subscriptions = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public ObservableCollection<ResourceGroup> ResourceGroups
+    {
+        get => _resourceGroups;
+        set
+        {
+            if (_resourceGroups == value)
+                return;
+            _resourceGroups = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private ResourceGroup _resourceGroup;
+    public ResourceGroup ResourceGroup
+    {
+        get => _resourceGroup;
+        set
+        {
+            if (_resourceGroup == value)
+                return;
+            _resourceGroup = value;
             OnPropertyChanged();
         }
     }
@@ -450,7 +476,28 @@ public class MainViewModel : ViewModelBase
             {
                 Subscription = Subscriptions[0];
             }
-          
+
+            IsNotBusy = true;
+        });
+    }
+
+    private async void LoadResourceGroups()
+    {
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            IsNotBusy = false;
+            ResourceGroups.Clear();
+        });
+
+        var resourceGroups = await _subscriptionService.GetResourceGroupsAsync(Subscription.Id);
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            ResourceGroups.Clear();
+            foreach (var rg in resourceGroups.OrderBy(o => o.Name))
+            {
+                ResourceGroups.Add(rg);
+            }
+
             IsNotBusy = true;
         });
     }

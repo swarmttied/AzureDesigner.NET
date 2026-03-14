@@ -75,8 +75,8 @@
                 <TextBlock Text="{x:Bind ViewModel.SubscriptionCount, Mode=OneWay}" Grid.Row="1" Grid.Column="1" Margin="0,5,0,2" HorizontalAlignment="Right"/>
                 <TextBlock Text="Resources " Grid.Row="2"      Margin="15,5,0,2"/>
                 <TextBlock Text="{x:Bind ViewModel.ResourceCount, Mode=OneWay}" Grid.Row="2" Grid.Column="1" Margin="0,5,0,2" HorizontalAlignment="Right"/>
-                <TextBlock Text="Traced " Grid.Row="3"         Margin="15,5,0,2" />                
-                <TextBlock Text="{x:Bind ViewModel.TracedCount, Mode=OneWay}" Grid.Row="3" Grid.Column="1" Margin="0,5,0,2" HorizontalAlignment="Right"/> 
+                <TextBlock Text="Traced " Grid.Row="3"         Margin="15,5,0,2" />
+                <TextBlock Text="{x:Bind ViewModel.TracedCount, Mode=OneWay}" Grid.Row="3" Grid.Column="1" Margin="0,5,0,2" HorizontalAlignment="Right"/>
                 <TextBlock Text="Analyzed  " Grid.Row="5"       Margin="15,5,0,2"/>
                 <TextBlock Text="{x:Bind ViewModel.AnalyzedCount, Mode=OneWay}" Grid.Row="5" Grid.Column="1" Margin="0,5,0,2" HorizontalAlignment="Right"/>
             </Grid>
@@ -109,13 +109,26 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <ComboBox ItemsSource="{x:Bind ViewModel.ResourceGroups, Mode=OneWay}" 
+              SelectedItem="{x:Bind ViewModel.ResourceGroup, Mode=TwoWay}" 
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+              Margin="0,5,5,0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="coremodels:ResourceGroup">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{x:Bind Name}" Margin="0,0,0,2"/>
+                            <TextBlock Text="{x:Bind Id}" Foreground="Gray" FontSize="10"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Button Content="Fetch resources" Command="{x:Bind ViewModel.LoadDataCommand}" Margin="0,5,5,0" IsEnabled="{x:Bind ViewModel.IsNotBusy, Mode=OneWay}"/>
             <CheckBox Margin="0,5,5,0" IsChecked="{x:Bind ViewModel.AppsOnly, Mode=TwoWay}">
                 <TextBlock Text="Apps only (overrides resource type filter)" />
             </CheckBox>
             <TextBlock Text="Select resource type" VerticalAlignment="Stretch" Margin="0,5,5,0"/>
             <ComboBox ItemsSource="{x:Bind ViewModel.ServiceTypes, Mode=TwoWay}" SelectedItem="{x:Bind ViewModel.SelectedServiceType, Mode=TwoWay}"
-                      HorizontalAlignment="Stretch" Margin="0,5,5,5">               
+                      HorizontalAlignment="Stretch" Margin="0,5,5,5">
             </ComboBox>
         </StackPanel>
 
@@ -169,7 +182,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="125"/>
                 <ColumnDefinition Width="350"/>
-                <ColumnDefinition Width="*" />               
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" Margin="5,5,5,0"/>
             <TextBox Text="{x:Bind ViewModel.SelectedService.Name, Mode=OneWay}" Grid.Row="0" Grid.Column="1" Margin="5,5,5,0"/>
@@ -221,7 +234,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </TabViewItem>-->
-                    <TabViewItem Header="Dependencies" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">                   
+                    <TabViewItem Header="Dependencies" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                         <ctrls:DependencyCanvas Node="{x:Bind ViewModel.SelectedService, Mode=OneWay}" x:Name="dependencyCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="720" Width="1000"/>
                     </TabViewItem>
                     <TabViewItem Header="Risks">
